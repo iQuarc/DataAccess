@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using iQuarc.AppBoot;
 
 namespace iQuarc.DataAccess
 {
+	[Service(typeof(IUnitOfWork), Lifetime.Instance)]
 	public sealed class UnitOfWork : IUnitOfWork
 	{
 		private static readonly List<EntityState> changed = new List<EntityState> { EntityState.Added, EntityState.Deleted, EntityState.Modified };

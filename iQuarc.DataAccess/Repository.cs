@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using iQuarc.AppBoot;
 
 namespace iQuarc.DataAccess
 {
+	[Service(typeof(IRepository), Lifetime.Instance)]
 	public sealed class Repository : IRepository
 	{
 		private readonly DbContext context;
