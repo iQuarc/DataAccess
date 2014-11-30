@@ -1,4 +1,4 @@
-namespace iQuarc.Finance.DataAccess
+namespace iQuarc.DataAccess
 {
 	public interface IEntityEntry
 	{

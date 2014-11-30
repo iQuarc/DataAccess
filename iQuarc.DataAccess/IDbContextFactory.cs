@@ -1,6 +1,6 @@
 using System.Data.Entity;
 
-namespace iQuarc.Finance.DataAccess
+namespace iQuarc.DataAccess
 {
 	public interface IDbContextFactory
 	{

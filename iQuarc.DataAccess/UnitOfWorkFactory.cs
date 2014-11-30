@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace iQuarc.Finance.DataAccess
+namespace iQuarc.DataAccess
 {
 	public class UnitOfWorkFactory : IUnitOfWorkFactory
 	{

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace iQuarc.Finance.DataAccess
+namespace iQuarc.DataAccess
 {
 	/// <summary>
 	/// Generic repository contract for database operations.
