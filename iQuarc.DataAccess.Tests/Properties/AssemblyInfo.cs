@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("iQuarc.DataAccess")]
+[assembly: AssemblyTitle("iQuarc.DataAccess.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("iQuarc")]
-[assembly: AssemblyProduct("iQuarc.DataAccess")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("iQuarc.DataAccess.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("70308d82-bb38-4dbd-a874-e66bacd83a72")]
+[assembly: Guid("d7ab5ef3-cabb-4db9-8150-e7f069cd6c36")]
 
 // Version information for an assembly consists of the following four values:
 //
