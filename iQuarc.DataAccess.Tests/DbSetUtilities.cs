@@ -1,23 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Moq;
+using System.Linq.Expressions;
 
 namespace iQuarc.DataAccess.Tests
 {
-	internal static class DbSetUtilities
-	{
-		public static Mock<DbSet<T>> MockDbSet<T>(this IList<T> values) where T : class
-		{
-			IQueryable<T> queryable = values.AsQueryable();
-			Mock<DbSet<T>> set = new Mock<DbSet<T>>();
+    static class DbSetUtilities
+    {
+        public static DbSet<T> MockDbSet<T>(this IList<T> values) where T : class
+        {
+            return new FakeSet<T>(values);
+        }
 
-			set.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-			set.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-			set.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-			set.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryable.GetEnumerator());
+        private class FakeSet<T> : DbSet<T>, IQueryable, IEnumerable<T> where T : class
+        {
+            private readonly IQueryable<T> queryable;
 
-			return set;
-		}
-	}
+            public FakeSet(IEnumerable<T> values)
+            {
+                queryable = values.AsQueryable();
+            }
+
+            IQueryProvider IQueryable.Provider
+            {
+                get { return queryable.Provider; }
+            }
+
+            Expression IQueryable.Expression
+            {
+                get { return queryable.Expression; }
+            }
+
+            Type IQueryable.ElementType
+            {
+                get { return queryable.ElementType; }
+            }
+
+            IEnumerator<T> IEnumerable<T>.GetEnumerator()
+            {
+                return queryable.GetEnumerator();
+            }
+        }
+    }
 }

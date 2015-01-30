@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="DbContextBuilder.cs" />
     <Compile Include="DbContextFactory.cs" />
     <Compile Include="EntityEntry.cs" />
     <Compile Include="EntityEntryStates.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="ExceptionHandling\RepositoryExceptionHandler.cs" />
     <Compile Include="SimplifiedIsolationLevel.cs" />
     <Compile Include="TypeNameAttribute.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
