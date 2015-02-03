@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace iQuarc.DataAccess
 {
+    [Serializable]
 	public class RepositoryViolationException : Exception
 	{
 		private const string ErrorMessageKey = "ErrorMessage";

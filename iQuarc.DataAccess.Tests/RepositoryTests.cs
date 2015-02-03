@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -17,7 +18,8 @@ namespace iQuarc.DataAccess.Tests
             IQueryable<User> users = repository.GetEntities<User>();
             User actual = users.FirstOrDefault(x => x.Id == 2);
 
-            Assert.IsNotNull(actual);
+            User expected = new User {Id = 2};
+            Assert.AreEqual(expected, actual);
         }
 
         private static Repository GetTarget()
@@ -29,14 +31,14 @@ namespace iQuarc.DataAccess.Tests
                     .Returns(new IEntityInterceptor[0]);
 
             Mock<IDbContextFactory> factory = new Mock<IDbContextFactory>();
-            factory.Setup(x => x.CreateContext(It.IsAny<Action<object>>()))
+            factory.Setup(x => x.CreateContext())
                    .Returns(CreateContext());
 
             Repository repository = new Repository(resolver.Object, factory.Object);
             return repository;
         }
 
-        private static DbContext CreateContext()
+        private static IDbContextWrapper CreateContext()
         {
             Role roleAdmin = new Role
             {
@@ -77,17 +79,58 @@ namespace iQuarc.DataAccess.Tests
             context.Setup(x => x.Set<User>()).Returns(() => userSet);
             context.Setup(x => x.Set<Role>()).Returns(() => roleSet);
 
-            return context.Object;
+            return new DbContextFakeWrapper(context.Object);
+        }
+    }
+
+    class DbContextFakeWrapper : IDbContextWrapper
+    {
+        public DbContextFakeWrapper(DbContext dbContext)
+        {
+            this.Context = dbContext;
+        }
+
+        public DbContext Context { get; private set; }
+        public event ObjectMaterializedEventHandler ObjectMaterialized;
+
+        public void RaiseObjectMaterialized(ObjectMaterializedEventArgs args)
+        {
+            if (ObjectMaterialized != null)
+                ObjectMaterialized(this, args);
+        }
+
+        public void Dispose()
+        {
         }
     }
 
     public class User
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
 
         public int RoleId { get; set; }
+
         public Role Role { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((User) obj);
+        }
+
+        protected bool Equals(User other)
+        {
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 
     public class Role

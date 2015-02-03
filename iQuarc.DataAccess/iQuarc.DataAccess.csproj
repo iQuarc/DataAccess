@@ -60,6 +60,7 @@
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="DbContextBuilder.cs" />
     <Compile Include="DbContextFactory.cs" />
+    <Compile Include="DbContextWrapper.cs" />
     <Compile Include="EntityEntry.cs" />
     <Compile Include="EntityEntryStates.cs" />
     <Compile Include="ExceptionHandling\RepositoryConcurrencyExceptionHandler.cs" />

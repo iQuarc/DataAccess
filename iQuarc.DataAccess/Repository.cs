@@ -30,10 +30,21 @@ namespace iQuarc.DataAccess
             return new UnitOfWork(interceptorsResolver, contextFactory);
         }
 
+
         public void Dispose()
         {
-            if (contextBuilder != null)
-                contextBuilder.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (contextBuilder != null)
+                    contextBuilder.Dispose();
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace iQuarc.DataAccess
         private readonly IInterceptorsResolver interceptorsResolver;
         private readonly IRepository repository;
 
-        private DbContext context;
+        private IDbContextWrapper contextWrapper;
         private IEnumerable<IEntityInterceptor> globalInterceptors;
 
         public DbContextBuilder(IDbContextFactory factory, IInterceptorsResolver interceptorsResolver, IRepository repository)
@@ -26,33 +26,35 @@ namespace iQuarc.DataAccess
         {
             get
             {
-                if (context == null)
+                if (contextWrapper == null)
                     Init();
 
-                return context;
+                return contextWrapper.Context;
             }
         }
 
         private void Init()
         {
             globalInterceptors = interceptorsResolver.GetGlobalInterceptors();
-            context = factory.CreateContext(OnEntityLoaded);
+            
+            contextWrapper = factory.CreateContext();
+            contextWrapper.ObjectMaterialized += contextWrapper_ObjectMaterialized;
         }
 
-        private void OnEntityLoaded(object entity)
+        void contextWrapper_ObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
         {
-            InterceptLoad(globalInterceptors, entity);
+            InterceptLoad(globalInterceptors, e.Entity);
 
-            Type entityType = ObjectContext.GetObjectType(entity.GetType());
+            Type entityType = ObjectContext.GetObjectType(e.Entity.GetType());
             IEnumerable<IEntityInterceptor> entityInterceptors = interceptorsResolver.GetEntityInterceptors(entityType);
-            InterceptLoad(entityInterceptors, entity);
+            InterceptLoad(entityInterceptors, e.Entity);
         }
 
         private void InterceptLoad(IEnumerable<IEntityInterceptor> interceptors, object entity)
         {
             foreach (var interceptor in interceptors)
             {
-                DbEntityEntry dbEntry = context.Entry(entity);
+                DbEntityEntry dbEntry = Context.Entry(entity);
                 EntityEntry entry = new EntityEntry(dbEntry);
                 interceptor.OnLoad(entry, repository);
             }
@@ -60,8 +62,11 @@ namespace iQuarc.DataAccess
 
         public void Dispose()
         {
-            if (context != null)
-                context.Dispose();
+            if (contextWrapper != null)
+            {
+                contextWrapper.ObjectMaterialized -= contextWrapper_ObjectMaterialized;
+                contextWrapper.Dispose();
+            }
         }
     }
 }
