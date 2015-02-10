@@ -61,9 +61,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DbSetUtilities.cs" />
     <Compile Include="RepositoryTests.cs" />
+    <Compile Include="TestDoubles\FakeExceptionHandler.cs" />
+    <Compile Include="TestDoubles\FakeSet.cs" />
+    <Compile Include="TestDoubles\InterceptorDouble.cs" />
+    <Compile Include="TestDoubles\DbContextFakeWrapper.cs" />
+    <Compile Include="TestDoubles\DbUtilities.cs" />
+    <Compile Include="RepositoryBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.RepositoryTests.cs" />
+    <Compile Include="UnitOfWork.SaveTests.cs" />
+    <Compile Include="UnitOfWork.AddTests.cs" />
+    <Compile Include="UnitOfWorkDeleteTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

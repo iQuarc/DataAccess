@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using iQuarc.AppBoot;
 
@@ -22,7 +23,7 @@ namespace iQuarc.DataAccess
 
         public IQueryable<T> GetEntities<T>() where T : class
         {
-            return contextBuilder.Context.Set<T>().AsNoTracking();
+            return Context.Set<T>().AsNoTracking();
         }
 
         public IUnitOfWork CreateUnitOfWork()
@@ -30,12 +31,15 @@ namespace iQuarc.DataAccess
             return new UnitOfWork(interceptorsResolver, contextFactory);
         }
 
+        protected DbContext Context
+        {
+            get { return contextBuilder.Context; }
+        }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-
         }
 
         protected virtual void Dispose(bool disposing)

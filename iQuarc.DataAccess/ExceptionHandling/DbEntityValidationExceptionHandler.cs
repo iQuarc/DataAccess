@@ -6,11 +6,11 @@ using iQuarc.SystemEx;
 
 namespace iQuarc.DataAccess
 {
-	internal class RepositoryDbEntityValidationExceptionHandler : IRepositoryExceptionHandler
+	internal class DbEntityValidationExceptionHandler : IExceptionHandler
 	{
-		private readonly IRepositoryExceptionHandler successor;
+		private readonly IExceptionHandler successor;
 
-		public RepositoryDbEntityValidationExceptionHandler(IRepositoryExceptionHandler successor)
+		public DbEntityValidationExceptionHandler(IExceptionHandler successor)
 		{
 			this.successor = successor;
 		}
@@ -27,7 +27,7 @@ namespace iQuarc.DataAccess
 			successor.Handle(exception);
 		}
 
-		public IRepositoryExceptionHandler Successor { get; private set; }
+		public IExceptionHandler Successor { get; private set; }
 
 		private static string GetErrorMessage(DbEntityValidationException validationException)
 		{

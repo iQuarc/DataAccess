@@ -4,11 +4,11 @@ using iQuarc.SystemEx;
 
 namespace iQuarc.DataAccess
 {
-	internal class RepositoryConcurrencyExceptionHandler : IRepositoryExceptionHandler
+	internal class ConcurrencyExceptionHandler : IExceptionHandler
 	{
-		private readonly IRepositoryExceptionHandler successor;
+		private readonly IExceptionHandler successor;
 
-		public RepositoryConcurrencyExceptionHandler(IRepositoryExceptionHandler successor)
+		public ConcurrencyExceptionHandler(IExceptionHandler successor)
 		{
 			this.successor = successor;
 		}

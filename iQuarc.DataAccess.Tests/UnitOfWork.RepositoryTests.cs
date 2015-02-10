@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace iQuarc.DataAccess.Tests
 {
     [TestClass]
-    public class RepositoryTests : RepositoryBaseTests
+    public class UnitOfWorkAsRepositoryTests : RepositoryBaseTests
     {
         protected override IRepository GetTarget(IInterceptorsResolver resolver, IDbContextFactory factory)
         {
-            return new Repository(resolver, factory);
+            return new UnitOfWork(resolver, factory);
         }
     }
 }

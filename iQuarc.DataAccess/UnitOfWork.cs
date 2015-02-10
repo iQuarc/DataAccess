@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -13,20 +12,27 @@ namespace iQuarc.DataAccess
     {
         private readonly IEnumerable<IEntityInterceptor> globalInterceptors;
         private readonly IInterceptorsResolver interceptorsResolver;
+        private readonly IDbContextUtilities contextUtilities;
 
         private readonly DbContextBuilder contextBuilder;
         private TransactionScope transactionScope;
 
-        private static readonly IRepositoryExceptionHandler exceptionHandlers = new RepositoryExceptionHandler();
+        private readonly IExceptionHandler exceptionHandler;
 
         internal UnitOfWork(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory)
+            : this(interceptorsResolver, contextFactory, new DbContextUtilities(), new ExceptionHandler())
+        {
+        }
+
+        internal UnitOfWork(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory, IDbContextUtilities contextUtilities, IExceptionHandler exceptionHandler)
         {
             this.interceptorsResolver = interceptorsResolver;
+            this.contextUtilities = contextUtilities;
             this.globalInterceptors = interceptorsResolver.GetGlobalInterceptors();
+            this.exceptionHandler = exceptionHandler;
 
             contextBuilder = new DbContextBuilder(contextFactory, interceptorsResolver, this);
         }
-
 
         public IQueryable<T> GetEntities<T>() where T : class
         {
@@ -55,9 +61,9 @@ namespace iQuarc.DataAccess
             }
         }
 
-        private static void Handle(Exception exception)
+        private void Handle(Exception exception)
         {
-            exceptionHandlers.Handle(exception);
+            exceptionHandler.Handle(exception);
         }
 
         public async Task SaveChangesAsync()
@@ -79,8 +85,7 @@ namespace iQuarc.DataAccess
 
         private void InterceptSave(List<object> interceptedEntities)
         {
-            IEnumerable<object> modifiedEntities = GetInterceptorModifiedEntities(contextBuilder.Context)
-                .Select(e => e.Entity).ToList();
+            IEnumerable<object> modifiedEntities = GetModifiedEntities(contextBuilder.Context).ToList();
 
             if (modifiedEntities.All(interceptedEntities.Contains))
                 return;
@@ -103,19 +108,15 @@ namespace iQuarc.DataAccess
         {
             foreach (var interceptor in interceptors)
             {
-                DbEntityEntry dbEntry = contextBuilder.Context.Entry(entity);
-                EntityEntry entry = new EntityEntry(dbEntry);
-
+                IEntityEntry entry = contextUtilities.GetEntry(entity, contextBuilder.Context);
                 interceptor.OnSave(entry, this);
             }
         }
 
-        private static IEnumerable<DbEntityEntry> GetInterceptorModifiedEntities(DbContext context)
+        private IEnumerable<object> GetModifiedEntities(DbContext context)
         {
-            context.ChangeTracker.DetectChanges();
-            var modifiedEntities = context.ChangeTracker.Entries()
-                                          .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
-
+            var modifiedEntities = contextUtilities.GetChangedEntities(context,
+                s => s == EntityState.Added || s == EntityState.Modified);
             return modifiedEntities;
         }
 

@@ -2,7 +2,7 @@
 
 namespace iQuarc.DataAccess
 {
-	internal class RepositoryDefaultExceptionHandler : IRepositoryExceptionHandler
+	internal class DefaultExceptionHandler : IExceptionHandler
 	{
 		public void Handle(Exception exception)
 		{

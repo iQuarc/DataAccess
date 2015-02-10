@@ -4,11 +4,11 @@ using iQuarc.SystemEx;
 
 namespace iQuarc.DataAccess
 {
-	internal class RepositoryUpdateExceptionHandler : IRepositoryExceptionHandler
+	internal class UpdateExceptionHandler : IExceptionHandler
 	{
-		private readonly IRepositoryExceptionHandler successor;
+		private readonly IExceptionHandler successor;
 
-		public RepositoryUpdateExceptionHandler(IRepositoryExceptionHandler successor)
+		public UpdateExceptionHandler(IExceptionHandler successor)
 		{
 			this.successor = successor;
 		}
