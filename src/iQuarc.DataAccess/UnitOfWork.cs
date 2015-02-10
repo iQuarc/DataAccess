@@ -92,25 +92,16 @@ namespace iQuarc.DataAccess
 
             foreach (object entity in modifiedEntities.Where(e => !interceptedEntities.Contains(e)))
             {
-                InterceptSave(this.globalInterceptors, entity);
+                Intercept(globalInterceptors, entity, (i, e) => i.OnSave(e, this));
 
                 Type entityType = ObjectContext.GetObjectType(entity.GetType());
-                IEnumerable<IEntityInterceptor> interceptors = interceptorsResolver.GetEntityInterceptors(entityType);
+                IEnumerable<IEntityInterceptor> entityInterceptors = interceptorsResolver.GetEntityInterceptors(entityType);
 
-                this.InterceptSave(interceptors, entity);
+                this.Intercept(entityInterceptors, entity, (i, e) => i.OnSave(e, this));
                 interceptedEntities.AddIfNotExists(entity);
             }
 
             InterceptSave(interceptedEntities);
-        }
-
-        private void InterceptSave(IEnumerable<IEntityInterceptor> interceptors, object entity)
-        {
-            foreach (var interceptor in interceptors)
-            {
-                IEntityEntry entry = contextUtilities.GetEntry(entity, contextBuilder.Context);
-                interceptor.OnSave(entry, this);
-            }
         }
 
         private IEnumerable<object> GetModifiedEntities(DbContext context)
@@ -127,7 +118,27 @@ namespace iQuarc.DataAccess
 
         public void Delete<T>(T entity) where T : class
         {
+            InterceptDelete(entity);
+
             contextBuilder.Context.Set<T>().Remove(entity);
+        }
+
+        private void InterceptDelete(object entity)
+        {
+            this.Intercept(globalInterceptors, entity, (i, e) => i.OnDelete(e, this));
+
+            Type entityType = ObjectContext.GetObjectType(entity.GetType());
+            IEnumerable<IEntityInterceptor> entityInterceptors = this.interceptorsResolver.GetEntityInterceptors(entityType);
+            this.Intercept(entityInterceptors, entity, (i, e) => i.OnDelete(e, this));
+        }
+
+        private void Intercept<T>(IEnumerable<T> interceptors, object entity, Action<T, IEntityEntry> intercept)
+        {
+            foreach (var interceptor in interceptors)
+            {
+                IEntityEntry entry = contextUtilities.GetEntry(entity, contextBuilder.Context);
+                intercept(interceptor, entry);
+            }
         }
 
         public void BeginTransactionScope(SimplifiedIsolationLevel isolationLevel)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using iQuarc.DataAccess.Tests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

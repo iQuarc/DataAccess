@@ -1,7 +1,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.Tests.TestDoubles
 {
     sealed class DbContextFakeWrapper : IDbContextWrapper
     {

@@ -71,6 +71,7 @@
     <Compile Include="TestDoubles\DbUtilities.cs" />
     <Compile Include="RepositoryBaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.DeleteTests.cs" />
     <Compile Include="UnitOfWork.RepositoryTests.cs" />
     <Compile Include="UnitOfWork.SaveTests.cs" />
     <Compile Include="UnitOfWork.AddTests.cs" />

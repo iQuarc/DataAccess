@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using Moq;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.Tests.TestDoubles
 {
     static class DbUtilities
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using iQuarc.DataAccess.Tests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -81,11 +82,7 @@ namespace iQuarc.DataAccess.Tests
 
         private static void AssertInterceptedOnSave(InterceptorDouble interceptorMock, params User[] users)
         {
-            for (int i = 0; i < users.Length; i++)
-            {
-                Assert.IsTrue(interceptorMock.InterceptedOnSave.Contains(users[i]),
-                    string.Format("User Name='{0}' was not intercepted", users[i].Name));
-            }
+            interceptorMock.AssertIntercepted(d => d.InterceptedOnSave, users, u => u.Name);
         }
 
         [TestMethod]
@@ -177,7 +174,6 @@ namespace iQuarc.DataAccess.Tests
             return new UnitOfWork(interceptorsResolver, contextFactoryStub, contextUtilitiesStub, handler);
         }
 
-        
 
         private class User
         {

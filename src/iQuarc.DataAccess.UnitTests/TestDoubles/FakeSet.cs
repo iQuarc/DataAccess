@@ -4,11 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.Tests.TestDoubles
 {
     class FakeSet<T> : DbSet<T>, IQueryable, IEnumerable<T> where T : class
     {
-        private IList<T> values;
+        private readonly List<T> values = new List<T>();
 
         private IQueryable<T> Queryable
         {
@@ -20,9 +20,9 @@ namespace iQuarc.DataAccess.Tests
             values = new List<T>();
         }
 
-        public FakeSet(IList<T> values)
+        public FakeSet(IEnumerable<T> values)
         {
-            this.values = values;
+            this.values.AddRange(values);
         }
 
         IQueryProvider IQueryable.Provider
