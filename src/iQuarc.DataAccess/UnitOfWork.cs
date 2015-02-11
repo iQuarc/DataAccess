@@ -31,7 +31,7 @@ namespace iQuarc.DataAccess
             this.globalInterceptors = interceptorsResolver.GetGlobalInterceptors();
             this.exceptionHandler = exceptionHandler;
 
-            contextBuilder = new DbContextBuilder(contextFactory, interceptorsResolver, this);
+            contextBuilder = new DbContextBuilder(contextFactory, interceptorsResolver, this, contextUtilities);
         }
 
         public IQueryable<T> GetEntities<T>() where T : class

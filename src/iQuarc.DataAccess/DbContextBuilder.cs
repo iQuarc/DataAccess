@@ -11,15 +11,22 @@ namespace iQuarc.DataAccess
         private readonly IDbContextFactory factory;
         private readonly IInterceptorsResolver interceptorsResolver;
         private readonly IRepository repository;
+        private readonly IDbContextUtilities contextUtilities;
 
         private IDbContextWrapper contextWrapper;
         private IEnumerable<IEntityInterceptor> globalInterceptors;
 
         public DbContextBuilder(IDbContextFactory factory, IInterceptorsResolver interceptorsResolver, IRepository repository)
+            :this(factory,interceptorsResolver,repository,new DbContextUtilities())
+        {
+        }
+
+        public DbContextBuilder(IDbContextFactory factory, IInterceptorsResolver interceptorsResolver, IRepository repository, IDbContextUtilities contextUtilities)
         {
             this.factory = factory;
             this.interceptorsResolver = interceptorsResolver;
             this.repository = repository;
+            this.contextUtilities = contextUtilities;
         }
 
         public DbContext Context
@@ -36,12 +43,12 @@ namespace iQuarc.DataAccess
         private void Init()
         {
             globalInterceptors = interceptorsResolver.GetGlobalInterceptors();
-            
+
             contextWrapper = factory.CreateContext();
-            contextWrapper.ObjectMaterialized += contextWrapper_ObjectMaterialized;
+            contextWrapper.EntityLoaded += ContextWrapperEntityLoaded;
         }
 
-        void contextWrapper_ObjectMaterialized(object sender, ObjectMaterializedEventArgs e)
+        private void ContextWrapperEntityLoaded(object sender, EntityLoadedEventHandlerArgs e)
         {
             InterceptLoad(globalInterceptors, e.Entity);
 
@@ -54,8 +61,7 @@ namespace iQuarc.DataAccess
         {
             foreach (var interceptor in interceptors)
             {
-                DbEntityEntry dbEntry = Context.Entry(entity);
-                EntityEntry entry = new EntityEntry(dbEntry);
+                IEntityEntry entry = contextUtilities.GetEntry(entity, Context);
                 interceptor.OnLoad(entry, repository);
             }
         }
@@ -64,7 +70,7 @@ namespace iQuarc.DataAccess
         {
             if (contextWrapper != null)
             {
-                contextWrapper.ObjectMaterialized -= contextWrapper_ObjectMaterialized;
+                contextWrapper.EntityLoaded -= ContextWrapperEntityLoaded;
                 contextWrapper.Dispose();
             }
         }

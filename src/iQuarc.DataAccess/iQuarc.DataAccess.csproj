@@ -64,6 +64,7 @@
     <Compile Include="DbContextBuilder.cs" />
     <Compile Include="DbContextFactory.cs" />
     <Compile Include="DbContextWrapper.cs" />
+    <Compile Include="IDbContextWrapper.cs" />
     <Compile Include="EntityEntry.cs" />
     <Compile Include="EntityEntryStates.cs" />
     <Compile Include="ExceptionHandling\ConcurrencyExceptionHandler.cs" />

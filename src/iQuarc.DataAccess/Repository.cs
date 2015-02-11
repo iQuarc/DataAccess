@@ -14,11 +14,15 @@ namespace iQuarc.DataAccess
         private readonly DbContextBuilder contextBuilder;
 
         public Repository(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory)
+            :this(interceptorsResolver,contextFactory, new DbContextUtilities())
+        { }
+
+        internal Repository(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory, IDbContextUtilities contextUtilities)
         {
             this.interceptorsResolver = interceptorsResolver;
             this.contextFactory = contextFactory;
 
-            contextBuilder = new DbContextBuilder(contextFactory, interceptorsResolver, this);
+            contextBuilder = new DbContextBuilder(contextFactory, interceptorsResolver, this, contextUtilities);
         }
 
         public IQueryable<T> GetEntities<T>() where T : class

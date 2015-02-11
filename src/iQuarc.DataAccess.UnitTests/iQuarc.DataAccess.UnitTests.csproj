@@ -6,8 +6,8 @@
     <ProjectGuid>{DFE330D3-8DFD-45CB-BDAD-5E1BA3D60569}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iQuarc.DataAccess.Tests</RootNamespace>
-    <AssemblyName>iQuarc.DataAccess.Tests</AssemblyName>
+    <RootNamespace>iQuarc.DataAccess.UnitTests</RootNamespace>
+    <AssemblyName>iQuarc.DataAccess.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="RepositoryTests.cs" />
+    <Compile Include="TestDoubles\ContextUtilitiesDouble.cs" />
     <Compile Include="TestDoubles\FakeExceptionHandler.cs" />
     <Compile Include="TestDoubles\FakeSet.cs" />
     <Compile Include="TestDoubles\InterceptorDouble.cs" />

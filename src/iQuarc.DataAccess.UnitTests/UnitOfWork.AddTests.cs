@@ -1,9 +1,9 @@
 using System.Data.Entity;
-using iQuarc.DataAccess.Tests.TestDoubles;
+using iQuarc.DataAccess.UnitTests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.UnitTests
 {
     [TestClass]
     public class UnitOfWorkAddTests
@@ -16,7 +16,7 @@ namespace iQuarc.DataAccess.Tests
             contextStub.Setup(c => c.Set<User>()).Returns(setStub);
 
             IInterceptorsResolver interceptorsResolver =  new Mock<IInterceptorsResolver>().Object;
-            UnitOfWork uof = new UnitOfWork(interceptorsResolver, contextStub.Object.BuildFactoryStub());
+            UnitOfWork uof = new UnitOfWork(interceptorsResolver, contextStub.BuildFactoryStub());
 
             User u = new User();
             uof.Add(u);

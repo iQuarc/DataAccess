@@ -1,22 +1,38 @@
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
+using Moq;
 
-namespace iQuarc.DataAccess.Tests.TestDoubles
+namespace iQuarc.DataAccess.UnitTests.TestDoubles
 {
     sealed class DbContextFakeWrapper : IDbContextWrapper
     {
-        public DbContextFakeWrapper(DbContext dbContext)
+        private readonly Mock<DbContext> contextDouble;
+
+        public DbContextFakeWrapper()
         {
-            this.Context = dbContext;
+            this.contextDouble = new Mock<DbContext>();
         }
 
-        public DbContext Context { get; private set; }
-        public event ObjectMaterializedEventHandler ObjectMaterialized;
-
-        public void RaiseObjectMaterialized(ObjectMaterializedEventArgs args)
+        public DbContextFakeWrapper(Mock<DbContext> dbContext)
         {
-            if (ObjectMaterialized != null)
-                ObjectMaterialized(this, args);
+            this.contextDouble = dbContext;
+        }
+
+        public Mock<DbContext> ContextDouble
+        {
+            get { return contextDouble; }
+        }
+
+        public DbContext Context
+        {
+            get { return contextDouble.Object; }
+        }
+
+        public event EntityLoadedEventHandler EntityLoaded;
+
+        public void RaiseEntityLoaded(EntityLoadedEventHandlerArgs args)
+        {
+            if (EntityLoaded != null)
+                EntityLoaded(this, args);
         }
 
         public void Dispose()
@@ -24,6 +40,6 @@ namespace iQuarc.DataAccess.Tests.TestDoubles
             WasDisposed = true;
         }
 
-        public bool WasDisposed { get; set; }
+        public bool WasDisposed { get; private set; }
     }
 }

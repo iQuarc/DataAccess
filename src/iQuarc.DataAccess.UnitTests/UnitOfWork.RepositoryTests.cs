@@ -1,13 +1,16 @@
+using iQuarc.DataAccess.UnitTests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.UnitTests
 {
     [TestClass]
     public class UnitOfWorkAsRepositoryTests : RepositoryBaseTests
     {
-        protected override IRepository GetTarget(IInterceptorsResolver resolver, IDbContextFactory factory)
+        protected override IRepository GetTarget(IDbContextFactory factory, IInterceptorsResolver resolver)
         {
-            return new UnitOfWork(resolver, factory);
+            IExceptionHandler handler = new Mock<IExceptionHandler>().Object;
+            return new UnitOfWork(resolver, factory, new ContextUtilitiesDouble(), handler);
         }
     }
 }

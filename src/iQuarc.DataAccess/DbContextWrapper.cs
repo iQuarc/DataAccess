@@ -1,16 +1,9 @@
-using System;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 
 namespace iQuarc.DataAccess
 {
-    public interface IDbContextWrapper : IDisposable
-    {
-        DbContext Context { get; }
-        event ObjectMaterializedEventHandler ObjectMaterialized;
-    }
-
     public sealed class DbContextWrapper : IDbContextWrapper
     {
         private readonly ObjectContext objectContext;
@@ -20,23 +13,23 @@ namespace iQuarc.DataAccess
             Context = context;
 
             objectContext = ((IObjectContextAdapter) context).ObjectContext;
-            objectContext.ObjectMaterialized += ObjectMaterializedInternalHandler;
+            objectContext.ObjectMaterialized += ObjectMaterializedHandler;
         }
 
-        private void ObjectMaterializedInternalHandler(object sender, ObjectMaterializedEventArgs e)
+        private void ObjectMaterializedHandler(object sender, ObjectMaterializedEventArgs e)
         {
-            ObjectMaterializedEventHandler handler = ObjectMaterialized;
+            EntityLoadedEventHandler handler = EntityLoaded;
             if (handler != null)
-                handler(this, e);
+                handler(this, new EntityLoadedEventHandlerArgs(e.Entity));
         }
 
         public DbContext Context { get; private set; }
 
-        public event ObjectMaterializedEventHandler ObjectMaterialized;
-       
+        public event EntityLoadedEventHandler EntityLoaded;
+
         public void Dispose()
         {
-            objectContext.ObjectMaterialized -= ObjectMaterializedInternalHandler;
+            objectContext.ObjectMaterialized -= ObjectMaterializedHandler;
             Context.Dispose();
         }
     }

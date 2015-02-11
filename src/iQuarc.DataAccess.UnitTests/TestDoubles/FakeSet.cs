@@ -4,15 +4,32 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace iQuarc.DataAccess.Tests.TestDoubles
+namespace iQuarc.DataAccess.UnitTests.TestDoubles
 {
-    class FakeSet<T> : DbSet<T>, IQueryable, IEnumerable<T> where T : class
+    class FakeSet<T> : DbSet<T>, IQueryable where T : class
     {
+        private readonly DbContextFakeWrapper wrapper;
         private readonly List<T> values = new List<T>();
+
+        private IQueryable<T> queryable; 
 
         private IQueryable<T> Queryable
         {
-            get { return values.AsQueryable(); }
+            get
+            {
+                if (queryable == null)
+                    queryable = EnumerateAndRaiseEvent().AsQueryable();
+                return queryable;
+            }
+        }
+
+        private IEnumerable<T> EnumerateAndRaiseEvent()
+        {
+            foreach (var value in values)
+            {
+                RaiseEntityLoaded(value);
+                yield return value;
+            }
         }
 
         public FakeSet()
@@ -21,7 +38,13 @@ namespace iQuarc.DataAccess.Tests.TestDoubles
         }
 
         public FakeSet(IEnumerable<T> values)
+            : this(values, null)
         {
+        }
+
+        public FakeSet(IEnumerable<T> values, DbContextFakeWrapper wrapper)
+        {
+            this.wrapper = wrapper;
             this.values.AddRange(values);
         }
 
@@ -40,9 +63,12 @@ namespace iQuarc.DataAccess.Tests.TestDoubles
             get { return Queryable.ElementType; }
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        private void RaiseEntityLoaded(T value)
         {
-            return Queryable.GetEnumerator();
+            if (wrapper != null)
+            {
+                wrapper.RaiseEntityLoaded(new EntityLoadedEventHandlerArgs(value));
+            }
         }
 
         public IList<T> Values

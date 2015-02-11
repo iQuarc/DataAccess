@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using iQuarc.DataAccess.Tests.TestDoubles;
+using System.Linq.Expressions;
+using iQuarc.DataAccess.UnitTests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.UnitTests
 {
-    [TestClass]
     public abstract class RepositoryBaseTests
     {
         [TestMethod]
         public void GetEntities_FilterById_ReturnsOneRecord()
         {
-            IInterceptorsResolver resolver = GetInterceptors();
-            IDbContextFactory factory = GetContextFactory();
+            IInterceptorsResolver resolver = GetEmptyInterceptors();
+            IDbContextFactory factory = GetFactory();
 
-            IRepository repository = GetTarget(resolver, factory);
+            IRepository repository = GetTarget(factory, resolver);
 
             IQueryable<User> users = repository.GetEntities<User>();
             User actual = users.FirstOrDefault(x => x.Id == 2);
@@ -29,13 +29,12 @@ namespace iQuarc.DataAccess.Tests
         [TestMethod]
         public void Dispose_ContextUsed_ContextDisposed()
         {
-            DbContext dbContext = CreateContext();
-            DbContextFakeWrapper contextFakeWrapper = new DbContextFakeWrapper(dbContext);
+            DbContextFakeWrapper contextFakeWrapper = CreateContextWithTestData();
+            IDbContextFactory factory = GetFactory(contextFakeWrapper);
+            IInterceptorsResolver resolver = GetEmptyInterceptors();
             
-            IDbContextFactory factory = GetContextFactory(contextFakeWrapper);
-            IInterceptorsResolver resolver = GetInterceptors();
-            IRepository repository = GetTarget(resolver, factory);
-            
+            IRepository repository = GetTarget(factory, resolver);
+
             var u = repository.GetEntities<User>().First();
 
 
@@ -44,23 +43,57 @@ namespace iQuarc.DataAccess.Tests
             Assert.IsTrue(contextFakeWrapper.WasDisposed);
         }
 
-
-        protected abstract IRepository GetTarget(IInterceptorsResolver resolver, IDbContextFactory factory);
-
-        private static IDbContextFactory GetContextFactory()
+        [TestMethod]
+        public void GetEntities_GlobalInterceptors_LoadedEntitiesIntercepted()
         {
-            DbContext context = CreateContext();
-            return context.BuildFactoryStub();
+            ParamTest__GetEntities_EntitiesExists_LoadedEntitiesIntercepted(
+                r => r.GetGlobalInterceptors());
         }
 
-        private IDbContextFactory GetContextFactory(DbContextFakeWrapper contextFakeWrapper)
+        private void ParamTest__GetEntities_EntitiesExists_LoadedEntitiesIntercepted(
+            Expression<Func<IInterceptorsResolver, IEnumerable<IEntityInterceptor>>> getInterceptorsFunction)
+        {
+            InterceptorDouble interceptorMock = new InterceptorDouble();
+            IInterceptorsResolver resolverStub = GetResolver(getInterceptorsFunction, interceptorMock);
+
+            DbContextFakeWrapper contextStub = CreateContextWithTestData();
+            IDbContextFactory factory = GetFactory(contextStub);
+
+            IRepository rep = GetTarget(factory, resolverStub);
+            User u = rep.GetEntities<User>().First();
+
+            AssertInterceptedOnLoad(interceptorMock, u);
+        }
+
+        private void AssertInterceptedOnLoad(InterceptorDouble interceptorMock, User user)
+        {
+            interceptorMock.AssertIntercepted(i => i.InterceptedOnOnLoad, new[] {user}, u => u.Name);
+        }
+
+        protected abstract IRepository GetTarget(IDbContextFactory factory, IInterceptorsResolver resolver);
+
+        private static IInterceptorsResolver GetResolver(Expression<Func<IInterceptorsResolver, IEnumerable<IEntityInterceptor>>> getInterceptorsFunction,
+            InterceptorDouble interceptorMock)
+        {
+            Mock<IInterceptorsResolver> stub = new Mock<IInterceptorsResolver>();
+            stub.Setup(getInterceptorsFunction).Returns(new[] {interceptorMock});
+            return stub.Object;
+        }
+
+        private IDbContextFactory GetFactory(DbContextFakeWrapper contextStub)
         {
             Mock<IDbContextFactory> factoryStub = new Mock<IDbContextFactory>();
-            factoryStub.Setup(f => f.CreateContext()).Returns(contextFakeWrapper);
+            factoryStub.Setup(f => f.CreateContext()).Returns(contextStub);
             return factoryStub.Object;
         }
 
-        private static IInterceptorsResolver GetInterceptors()
+        private static IDbContextFactory GetFactory()
+        {
+            DbContextFakeWrapper fakeWrapper = CreateContextWithTestData();
+            return fakeWrapper.ContextDouble.BuildFactoryStub();
+        }
+
+        private static IInterceptorsResolver GetEmptyInterceptors()
         {
             Mock<IInterceptorsResolver> resolver = new Mock<IInterceptorsResolver>();
             resolver.Setup(x => x.GetEntityInterceptors(It.IsAny<Type>()))
@@ -70,7 +103,7 @@ namespace iQuarc.DataAccess.Tests
             return resolver.Object;
         }
 
-        private static DbContext CreateContext()
+        private static DbContextFakeWrapper CreateContextWithTestData()
         {
             Role roleAdmin = new Role
             {
@@ -103,15 +136,15 @@ namespace iQuarc.DataAccess.Tests
 
             List<User> users = roles.SelectMany(r => r.Users).ToList();
 
-            Mock<DbContext> context = new Mock<DbContext>();
+            DbContextFakeWrapper wrapper = new DbContextFakeWrapper();
 
-            DbSet<User> userSet = users.MockDbSet();
-            DbSet<Role> roleSet = roles.MockDbSet();
+            DbSet<User> userSet = users.MockDbSet(wrapper);
+            DbSet<Role> roleSet = roles.MockDbSet(wrapper);
 
-            context.Setup(x => x.Set<User>()).Returns(() => userSet);
-            context.Setup(x => x.Set<Role>()).Returns(() => roleSet);
+            wrapper.ContextDouble.Setup(x => x.Set<User>()).Returns(() => userSet);
+            wrapper.ContextDouble.Setup(x => x.Set<Role>()).Returns(() => roleSet);
 
-            return context.Object;
+            return wrapper;
         }
 
         private class User

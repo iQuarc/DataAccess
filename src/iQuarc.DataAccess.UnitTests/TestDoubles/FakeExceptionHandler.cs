@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace iQuarc.DataAccess.Tests.TestDoubles
+namespace iQuarc.DataAccess.UnitTests.TestDoubles
 {
     public class FakeExceptionHandler : IExceptionHandler
     {

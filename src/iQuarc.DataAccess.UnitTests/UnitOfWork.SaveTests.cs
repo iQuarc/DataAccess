@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using iQuarc.DataAccess.Tests.TestDoubles;
+using iQuarc.DataAccess.UnitTests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.UnitTests
 {
     [TestClass]
     public class UnitOfWorkSaveTests
@@ -89,7 +89,7 @@ namespace iQuarc.DataAccess.Tests
         public void SaveChanges_WhenCalled_SaveChangesOnContext()
         {
             Mock<DbContext> contextMock = new Mock<DbContext>();
-            UnitOfWork uof = GetTargetWith(contextMock.Object);
+            UnitOfWork uof = GetTargetWith(contextMock);
 
             uof.SaveChanges();
 
@@ -120,14 +120,14 @@ namespace iQuarc.DataAccess.Tests
             dbContextStub.Setup(c => c.SaveChanges()).Throws(e);
 
             FakeExceptionHandler handler = new FakeExceptionHandler();
-            UnitOfWork uof = GetTargetWith(dbContextStub.Object, handler);
+            UnitOfWork uof = GetTargetWith(dbContextStub, handler);
 
             uof.SaveChanges();
 
             Assert.AreSame(e, handler.Handled);
         }
 
-        private UnitOfWork GetTargetWith(DbContext context, FakeExceptionHandler handler)
+        private UnitOfWork GetTargetWith(Mock<DbContext> context, FakeExceptionHandler handler)
         {
             ContextUtilitiesDouble utilitiesStub = new ContextUtilitiesDouble(new[] {new User()});
             Mock<IInterceptorsResolver> resolverStub = new Mock<IInterceptorsResolver>();
@@ -142,10 +142,10 @@ namespace iQuarc.DataAccess.Tests
             Mock<IInterceptorsResolver> resolverStub = new Mock<IInterceptorsResolver>();
             resolverStub.Setup(r => r.GetGlobalInterceptors()).Returns(new[] {interceptor});
 
-            return GetTargetWith(utilitiesStub, resolverStub.Object, new Mock<DbContext>().Object, handler);
+            return GetTargetWith(utilitiesStub, resolverStub.Object, new Mock<DbContext>(), handler);
         }
 
-        private UnitOfWork GetTargetWith(DbContext context)
+        private UnitOfWork GetTargetWith(Mock<DbContext> context)
         {
             ContextUtilitiesDouble contextUtilitiesStub = new ContextUtilitiesDouble(Enumerable.Empty<object>());
             return GetTargetWith(contextUtilitiesStub, new Mock<IInterceptorsResolver>().Object, context);
@@ -154,21 +154,21 @@ namespace iQuarc.DataAccess.Tests
         private UnitOfWork GetTargetWith(IEnumerable<object> changedEntities, IInterceptorsResolver interceptorsResolver)
         {
             ContextUtilitiesDouble contextUtilitiesStub = new ContextUtilitiesDouble(changedEntities);
-            return GetTargetWith(contextUtilitiesStub, interceptorsResolver, new Mock<DbContext>().Object);
+            return GetTargetWith(contextUtilitiesStub, interceptorsResolver, new Mock<DbContext>());
         }
 
         private UnitOfWork GetTargetWith(IDbContextUtilities contextUtilities, IInterceptorsResolver interceptorsResolver)
         {
-            return GetTargetWith(contextUtilities, interceptorsResolver, new Mock<DbContext>().Object);
+            return GetTargetWith(contextUtilities, interceptorsResolver, new Mock<DbContext>());
         }
 
-        private UnitOfWork GetTargetWith(IDbContextUtilities contextUtilitiesStub, IInterceptorsResolver interceptorsResolver, DbContext contextStub)
+        private UnitOfWork GetTargetWith(IDbContextUtilities contextUtilitiesStub, IInterceptorsResolver interceptorsResolver, Mock<DbContext> contextStub)
         {
             IExceptionHandler handler = new Mock<IExceptionHandler>().Object;
             return GetTargetWith(contextUtilitiesStub, interceptorsResolver, contextStub, handler);
         }
 
-        private UnitOfWork GetTargetWith(IDbContextUtilities contextUtilitiesStub, IInterceptorsResolver interceptorsResolver, DbContext contextStub, IExceptionHandler handler)
+        private UnitOfWork GetTargetWith(IDbContextUtilities contextUtilitiesStub, IInterceptorsResolver interceptorsResolver, Mock<DbContext> contextStub, IExceptionHandler handler)
         {
             var contextFactoryStub = contextStub.BuildFactoryStub();
             return new UnitOfWork(interceptorsResolver, contextFactoryStub, contextUtilitiesStub, handler);

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq.Expressions;
-using iQuarc.DataAccess.Tests.TestDoubles;
+using iQuarc.DataAccess.UnitTests.TestDoubles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.UnitTests
 {
     [TestClass]
     public class UnitOfWorkDeleteTests
@@ -81,18 +81,18 @@ namespace iQuarc.DataAccess.Tests
 
         private UnitOfWork GetTargetWith(FakeSet<User> set, IInterceptorsResolver interceptorsResolver, IDbContextUtilities contextUtilities)
         {
-            DbContext context = GetContextWith(set);
+            Mock<DbContext> context = GetContextWith(set);
             IDbContextFactory contextFactory = context.BuildFactoryStub();
 
             IExceptionHandler handler = new Mock<IExceptionHandler>().Object;
             return new UnitOfWork(interceptorsResolver, contextFactory,contextUtilities, handler);
         }
 
-        private DbContext GetContextWith(FakeSet<User> set)
+        private Mock<DbContext> GetContextWith(FakeSet<User> set)
         {
             Mock<DbContext> contextStub = new Mock<DbContext>();
             contextStub.Setup(c => c.Set<User>()).Returns(set);
-            return contextStub.Object;
+            return contextStub;
         }
 
         private static void AssertInterceptedOnDelete(InterceptorDouble interceptorMock, params User[] users)

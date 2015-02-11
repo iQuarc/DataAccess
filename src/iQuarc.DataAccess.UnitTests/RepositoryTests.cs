@@ -1,13 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using iQuarc.DataAccess.UnitTests.TestDoubles;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace iQuarc.DataAccess.Tests
+namespace iQuarc.DataAccess.UnitTests
 {
     [TestClass]
-    public class RepositoryTests : RepositoryBaseTests
+    public  class RepositoryTests : RepositoryBaseTests
     {
-        protected override IRepository GetTarget(IInterceptorsResolver resolver, IDbContextFactory factory)
+        protected override IRepository GetTarget(IDbContextFactory factory, IInterceptorsResolver resolver)
         {
-            return new Repository(resolver, factory);
+            return new Repository(resolver, factory, new ContextUtilitiesDouble());
         }
     }
 }

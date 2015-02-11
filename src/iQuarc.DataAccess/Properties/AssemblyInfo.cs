@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: InternalsVisibleTo("iQuarc.DataAccess.Tests")]
+[assembly: InternalsVisibleTo("iQuarc.DataAccess.UnitTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
