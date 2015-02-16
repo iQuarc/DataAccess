@@ -9,7 +9,7 @@ namespace iQuarc.DataAccess
         event EntityLoadedEventHandler EntityLoaded;
     }
 
-    public delegate void EntityLoadedEventHandler(object sender, EntityLoadedEventHandlerArgs args);
+    public delegate void EntityLoadedEventHandler(object sender, EntityLoadedEventHandlerArgs e);
 
     public class EntityLoadedEventHandlerArgs : EventArgs
     {

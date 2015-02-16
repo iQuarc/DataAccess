@@ -44,7 +44,7 @@
       <HintPath>..\iQuarc.DataAccess\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
-      <HintPath>..\iQuarc.DataAccess\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -63,7 +63,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ExceptionHandlingTests\AssertEx.cs" />
+    <Compile Include="ExceptionHandlingTests\ConcurrencyExceptionHandlerTests.cs" />
+    <Compile Include="ExceptionHandlingTests\DataValidationExceptionTests.cs" />
+    <Compile Include="ExceptionHandlingTests\DbEntityValidationExceptionHandlerTests.cs" />
+    <Compile Include="ExceptionHandlingTests\ExceptionHandlersBaseTests.cs" />
+    <Compile Include="ExceptionHandlingTests\ExceptionHandlerTests.cs" />
     <Compile Include="RepositoryTests.cs" />
+    <Compile Include="ExceptionHandlingTests\RepositoryUpdateExceptionTests.cs" />
     <Compile Include="TestDoubles\ContextUtilitiesDouble.cs" />
     <Compile Include="TestDoubles\FakeExceptionHandler.cs" />
     <Compile Include="TestDoubles\FakeSet.cs" />

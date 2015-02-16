@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 
 namespace iQuarc.DataAccess
 {
@@ -15,11 +14,6 @@ namespace iQuarc.DataAccess
 
         private IDbContextWrapper contextWrapper;
         private IEnumerable<IEntityInterceptor> globalInterceptors;
-
-        public DbContextBuilder(IDbContextFactory factory, IInterceptorsResolver interceptorsResolver, IRepository repository)
-            :this(factory,interceptorsResolver,repository,new DbContextUtilities())
-        {
-        }
 
         public DbContextBuilder(IDbContextFactory factory, IInterceptorsResolver interceptorsResolver, IRepository repository, IDbContextUtilities contextUtilities)
         {
@@ -45,10 +39,10 @@ namespace iQuarc.DataAccess
             globalInterceptors = interceptorsResolver.GetGlobalInterceptors();
 
             contextWrapper = factory.CreateContext();
-            contextWrapper.EntityLoaded += ContextWrapperEntityLoaded;
+            contextWrapper.EntityLoaded += OnEntityLoaded;
         }
 
-        private void ContextWrapperEntityLoaded(object sender, EntityLoadedEventHandlerArgs e)
+        private void OnEntityLoaded(object sender, EntityLoadedEventHandlerArgs e)
         {
             InterceptLoad(globalInterceptors, e.Entity);
 
@@ -70,7 +64,7 @@ namespace iQuarc.DataAccess
         {
             if (contextWrapper != null)
             {
-                contextWrapper.EntityLoaded -= ContextWrapperEntityLoaded;
+                contextWrapper.EntityLoaded -= OnEntityLoaded;
                 contextWrapper.Dispose();
             }
         }

@@ -1,57 +1,49 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Validation;
-using System.Globalization;
-using System.Text;
 using iQuarc.SystemEx;
 
 namespace iQuarc.DataAccess
 {
-	internal class DbEntityValidationExceptionHandler : IExceptionHandler
-	{
-		private readonly IExceptionHandler successor;
+    class DbEntityValidationExceptionHandler : IExceptionHandler
+    {
+        private readonly IExceptionHandler successor;
 
-		public DbEntityValidationExceptionHandler(IExceptionHandler successor)
-		{
-			this.successor = successor;
-		}
+        public DbEntityValidationExceptionHandler(IExceptionHandler successor)
+        {
+            this.successor = successor;
+        }
 
-		public void Handle(Exception exception)
-		{
-			var validationException = exception.FirstInner<DbEntityValidationException>();
-			if (validationException != null)
-			{
-				var message = GetErrorMessage(validationException);
-				throw new RepositoryViolationException(message, validationException);
-			}
+        public void Handle(Exception exception)
+        {
+            var validationException = exception.FirstInner<DbEntityValidationException>();
+            if (validationException != null)
+            {
+                IEnumerable<DataValidationResult> errors = GetErrors(validationException);
+                throw new DataValidationException(validationException.Message, errors, validationException);
+            }
 
-			successor.Handle(exception);
-		}
+            successor.Handle(exception);
+        }
 
-		public IExceptionHandler Successor { get; private set; }
+        private IEnumerable<DataValidationResult> GetErrors(DbEntityValidationException validationException)
+        {
+            foreach (var dbEntityValidationResult in validationException.EntityValidationErrors)
+            {
+                EntityEntry entry = new EntityEntry(dbEntityValidationResult.Entry);
+                IEnumerable<ValidationError> entryErrors = GetEntryErrors(dbEntityValidationResult.ValidationErrors);
+                yield return new DataValidationResult(entry, entryErrors);
+            }
+        }
 
-		private static string GetErrorMessage(DbEntityValidationException validationException)
-		{
-			var sb = new StringBuilder();
-			foreach (var entityErrors in validationException.EntityValidationErrors)
-			{
-				AppendLineFormat(sb, "Entity [{0}] in state {1} has the following errors: ", entityErrors.Entry.Entity.GetType().Name, entityErrors.Entry.State);
-				foreach (var err in entityErrors.ValidationErrors)
-				{
-					AppendLineFormat(sb, "\tPropery [{0}]: {1}", err.PropertyName, err.ErrorMessage);
-				}
-			}
-			return sb.ToString();
-		}
+        private IEnumerable<ValidationError> GetEntryErrors(IEnumerable<DbValidationError> validationErrors)
+        {
+            foreach (var dbValidationError in validationErrors)
+            {
+                yield return new ValidationError(dbValidationError.PropertyName, dbValidationError.ErrorMessage);
+            }
+        }
 
-		private static StringBuilder AppendLineFormat(StringBuilder builder, string format, params object[] args)
-		{
-			return AppendLineFormat(builder, CultureInfo.InvariantCulture, format, args);
-		}
-
-		private static StringBuilder AppendLineFormat(StringBuilder builder, IFormatProvider formatProvider, string format, params object[] args)
-		{
-			return builder.AppendFormat(formatProvider, format, args)
-				.AppendLine();
-		}
-	}
+        public IExceptionHandler Successor { get; private set; }
+    }
 }
