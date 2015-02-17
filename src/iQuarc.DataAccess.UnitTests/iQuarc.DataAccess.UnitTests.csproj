@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AuditableInterceptorBaseTests.cs" />
     <Compile Include="ExceptionHandlingTests\AssertEx.cs" />
     <Compile Include="ExceptionHandlingTests\ConcurrencyExceptionHandlerTests.cs" />
     <Compile Include="ExceptionHandlingTests\DataValidationExceptionTests.cs" />
@@ -71,7 +72,9 @@
     <Compile Include="ExceptionHandlingTests\ExceptionHandlerTests.cs" />
     <Compile Include="RepositoryTests.cs" />
     <Compile Include="ExceptionHandlingTests\UpdateExceptionHandlerTests.cs" />
+    <Compile Include="TestDoubles\AuditableExtensions.cs" />
     <Compile Include="TestDoubles\ContextUtilitiesDouble.cs" />
+    <Compile Include="TestDoubles\EntityEntryDouble.cs" />
     <Compile Include="TestDoubles\FakeExceptionHandler.cs" />
     <Compile Include="TestDoubles\FakeSet.cs" />
     <Compile Include="TestDoubles\InterceptorDouble.cs" />

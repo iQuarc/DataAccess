@@ -32,14 +32,14 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
             onLoad.Add(entry);
         }
 
-        public void OnSave(IEntityEntry entity, IRepository repository)
+        public void OnSave(IEntityEntry entry, IRepository repository)
         {
-            onSave.Add(entity);
+            onSave.Add(entry);
         }
 
-        public void OnDelete(IEntityEntry entity, IRepository repository)
+        public void OnDelete(IEntityEntry entry, IRepository repository)
         {
-            onDelete.Add(entity);
+            onDelete.Add(entry);
         }
     }
 

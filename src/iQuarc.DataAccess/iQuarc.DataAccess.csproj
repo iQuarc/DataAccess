@@ -60,11 +60,14 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditableInterceptorBase.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="DbContextBuilder.cs" />
     <Compile Include="DbContextFactory.cs" />
     <Compile Include="DbContextWrapper.cs" />
     <Compile Include="Exceptions\DataValidationException.cs" />
+    <Compile Include="GlobalEntityInterceptor.cs" />
+    <Compile Include="IAuditable.cs" />
     <Compile Include="IDbContextWrapper.cs" />
     <Compile Include="EntityEntry.cs" />
     <Compile Include="EntityEntryStates.cs" />
