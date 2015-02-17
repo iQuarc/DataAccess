@@ -16,7 +16,7 @@ namespace iQuarc.DataAccess.UnitTests
             contextStub.Setup(c => c.Set<User>()).Returns(setStub);
 
             IInterceptorsResolver interceptorsResolver =  new Mock<IInterceptorsResolver>().Object;
-            UnitOfWork uof = new UnitOfWork(interceptorsResolver, contextStub.BuildFactoryStub());
+            UnitOfWork uof = new UnitOfWork(contextStub.BuildFactoryStub(), interceptorsResolver);
 
             User u = new User();
             uof.Add(u);

@@ -171,7 +171,7 @@ namespace iQuarc.DataAccess.UnitTests
         private UnitOfWork GetTargetWith(IDbContextUtilities contextUtilitiesStub, IInterceptorsResolver interceptorsResolver, Mock<DbContext> contextStub, IExceptionHandler handler)
         {
             var contextFactoryStub = contextStub.BuildFactoryStub();
-            return new UnitOfWork(interceptorsResolver, contextFactoryStub, contextUtilitiesStub, handler);
+            return new UnitOfWork(contextFactoryStub, interceptorsResolver, contextUtilitiesStub, handler);
         }
 
 

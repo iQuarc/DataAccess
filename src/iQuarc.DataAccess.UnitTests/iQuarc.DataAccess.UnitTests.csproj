@@ -70,7 +70,7 @@
     <Compile Include="ExceptionHandlingTests\ExceptionHandlersBaseTests.cs" />
     <Compile Include="ExceptionHandlingTests\ExceptionHandlerTests.cs" />
     <Compile Include="RepositoryTests.cs" />
-    <Compile Include="ExceptionHandlingTests\RepositoryUpdateExceptionTests.cs" />
+    <Compile Include="ExceptionHandlingTests\UpdateExceptionHandlerTests.cs" />
     <Compile Include="TestDoubles\ContextUtilitiesDouble.cs" />
     <Compile Include="TestDoubles\FakeExceptionHandler.cs" />
     <Compile Include="TestDoubles\FakeSet.cs" />

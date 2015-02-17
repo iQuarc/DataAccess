@@ -94,8 +94,8 @@
     <Compile Include="Repository.cs" />
     <Compile Include="ExceptionHandling\ExceptionHandler.cs" />
     <Compile Include="SimplifiedIsolationLevel.cs" />
-    <Compile Include="TypeNameAttribute.cs" />
     <Compile Include="UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

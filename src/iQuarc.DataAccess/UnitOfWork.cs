@@ -8,7 +8,12 @@ using System.Transactions;
 
 namespace iQuarc.DataAccess
 {
-    sealed class UnitOfWork : IUnitOfWork
+    /// <summary>
+    ///     Implements an unit of work for modifying, deleting or adding new data with Entity Framework.
+    ///     An instance of this class should have a well defined and short scope. It should be disposed once the changes were
+    ///     saved into the database
+    /// </summary>
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly IEnumerable<IEntityInterceptor> globalInterceptors;
         private readonly IInterceptorsResolver interceptorsResolver;
@@ -19,12 +24,12 @@ namespace iQuarc.DataAccess
 
         private readonly IExceptionHandler exceptionHandler;
 
-        internal UnitOfWork(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory)
-            : this(interceptorsResolver, contextFactory, new DbContextUtilities(), new ExceptionHandler())
+        internal UnitOfWork(IDbContextFactory contextFactory, IInterceptorsResolver interceptorsResolver)
+            : this(contextFactory, interceptorsResolver, new DbContextUtilities(), new ExceptionHandler())
         {
         }
 
-        internal UnitOfWork(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory, IDbContextUtilities contextUtilities, IExceptionHandler exceptionHandler)
+        internal UnitOfWork(IDbContextFactory contextFactory, IInterceptorsResolver interceptorsResolver, IDbContextUtilities contextUtilities, IExceptionHandler exceptionHandler)
         {
             this.interceptorsResolver = interceptorsResolver;
             this.contextUtilities = contextUtilities;

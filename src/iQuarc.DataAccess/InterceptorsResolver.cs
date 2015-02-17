@@ -8,7 +8,7 @@ using Microsoft.Practices.ServiceLocation;
 namespace iQuarc.DataAccess
 {
 	[Service(typeof(IInterceptorsResolver))]
-	internal class InterceptorsResolver : IInterceptorsResolver
+	public class InterceptorsResolver : IInterceptorsResolver
 	{
 		private readonly IServiceLocator servicelocator;
 		private static readonly Type interceptorGenericType = typeof(IEntityInterceptor<>);

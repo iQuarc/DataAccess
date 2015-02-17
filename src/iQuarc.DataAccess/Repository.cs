@@ -5,6 +5,11 @@ using iQuarc.AppBoot;
 
 namespace iQuarc.DataAccess
 {
+    /// <summary>
+    ///     Implements a repository for reading data with Entity Framework
+    ///     The entities retrieved through this repository are not meant to be modified and persisted back.
+    ///     This implementation is optimized for read-only operations. For reading data for edit, or delete create and use an IUnitOfWork
+    /// </summary>
     [Service(typeof (IRepository))]
     public class Repository : IRepository, IDisposable
     {
@@ -13,11 +18,12 @@ namespace iQuarc.DataAccess
 
         private readonly DbContextBuilder contextBuilder;
 
-        public Repository(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory)
-            :this(interceptorsResolver,contextFactory, new DbContextUtilities())
-        { }
+        public Repository(IDbContextFactory contextFactory, IInterceptorsResolver interceptorsResolver)
+            : this(contextFactory, interceptorsResolver, new DbContextUtilities())
+        {
+        }
 
-        internal Repository(IInterceptorsResolver interceptorsResolver, IDbContextFactory contextFactory, IDbContextUtilities contextUtilities)
+        internal Repository(IDbContextFactory contextFactory, IInterceptorsResolver interceptorsResolver, IDbContextUtilities contextUtilities)
         {
             this.interceptorsResolver = interceptorsResolver;
             this.contextFactory = contextFactory;
@@ -32,7 +38,7 @@ namespace iQuarc.DataAccess
 
         public IUnitOfWork CreateUnitOfWork()
         {
-            return new UnitOfWork(interceptorsResolver, contextFactory);
+            return new UnitOfWork(contextFactory, interceptorsResolver);
         }
 
         protected DbContext Context

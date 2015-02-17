@@ -85,7 +85,7 @@ namespace iQuarc.DataAccess.UnitTests
             IDbContextFactory contextFactory = context.BuildFactoryStub();
 
             IExceptionHandler handler = new Mock<IExceptionHandler>().Object;
-            return new UnitOfWork(interceptorsResolver, contextFactory,contextUtilities, handler);
+            return new UnitOfWork(contextFactory,interceptorsResolver, contextUtilities, handler);
         }
 
         private Mock<DbContext> GetContextWith(FakeSet<User> set)

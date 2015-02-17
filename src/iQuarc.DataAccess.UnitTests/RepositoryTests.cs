@@ -8,7 +8,7 @@ namespace iQuarc.DataAccess.UnitTests
     {
         protected override IRepository GetTarget(IDbContextFactory factory, IInterceptorsResolver resolver)
         {
-            return new Repository(resolver, factory, new ContextUtilitiesDouble());
+            return new Repository(factory, resolver, new ContextUtilitiesDouble());
         }
     }
 }

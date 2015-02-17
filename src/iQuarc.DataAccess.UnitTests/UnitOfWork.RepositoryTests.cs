@@ -10,7 +10,7 @@ namespace iQuarc.DataAccess.UnitTests
         protected override IRepository GetTarget(IDbContextFactory factory, IInterceptorsResolver resolver)
         {
             IExceptionHandler handler = new Mock<IExceptionHandler>().Object;
-            return new UnitOfWork(resolver, factory, new ContextUtilitiesDouble(), handler);
+            return new UnitOfWork(factory, resolver, new ContextUtilitiesDouble(), handler);
         }
     }
 }
