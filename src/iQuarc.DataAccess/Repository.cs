@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using iQuarc.AppBoot;
 
 namespace iQuarc.DataAccess
 {
@@ -10,7 +9,6 @@ namespace iQuarc.DataAccess
     ///     The entities retrieved through this repository are not meant to be modified and persisted back.
     ///     This implementation is optimized for read-only operations. For reading data for edit, or delete create and use an IUnitOfWork
     /// </summary>
-    [Service(typeof (IRepository))]
     public class Repository : IRepository, IDisposable
     {
         private readonly IInterceptorsResolver interceptorsResolver;

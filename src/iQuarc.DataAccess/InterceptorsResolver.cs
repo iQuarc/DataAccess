@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using iQuarc.AppBoot;
 using iQuarc.SystemEx.Priority;
 using Microsoft.Practices.ServiceLocation;
 
 namespace iQuarc.DataAccess
 {
-	[Service(typeof(IInterceptorsResolver))]
 	public class InterceptorsResolver : IInterceptorsResolver
 	{
 		private readonly IServiceLocator servicelocator;

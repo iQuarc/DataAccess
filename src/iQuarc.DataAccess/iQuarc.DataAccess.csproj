@@ -35,9 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="iQuarc.AppBoot">
-      <HintPath>..\packages\iQuarc.AppBoot.1.0.0.0\lib\net45\iQuarc.AppBoot.dll</HintPath>
-    </Reference>
     <Reference Include="iQuarc.SystemEx">
       <HintPath>..\packages\iQuarc.SystemEx.1.0.0.0\lib\net40\iQuarc.SystemEx.dll</HintPath>
     </Reference>
