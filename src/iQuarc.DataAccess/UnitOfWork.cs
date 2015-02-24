@@ -156,11 +156,20 @@ namespace iQuarc.DataAccess
 
         public void Dispose()
         {
-            if (transactionScope != null)
-                transactionScope.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            if (contextBuilder != null)
-                contextBuilder.Dispose();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (transactionScope != null)
+                    transactionScope.Dispose();
+
+                if (contextBuilder != null)
+                    contextBuilder.Dispose();
+            }
         }
     }
 }
