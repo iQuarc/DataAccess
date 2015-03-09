@@ -58,7 +58,7 @@ namespace iQuarc.DataAccess.UnitTests
 
             public object Entity { get; set; }
 
-            public EntityEntryStates State
+            public EntityEntryState State
             {
                 get { throw new NotImplementedException(); }
             }

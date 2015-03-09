@@ -60,7 +60,7 @@
     <Compile Include="IAuditable.cs" />
     <Compile Include="IDbContextWrapper.cs" />
     <Compile Include="EntityEntry.cs" />
-    <Compile Include="EntityEntryStates.cs" />
+    <Compile Include="EntityEntryState.cs" />
     <Compile Include="ExceptionHandling\ConcurrencyExceptionHandler.cs" />
     <Compile Include="ExceptionHandling\DbEntityValidationExceptionHandler.cs" />
     <Compile Include="ExceptionHandling\DefaultExceptionHandler.cs" />

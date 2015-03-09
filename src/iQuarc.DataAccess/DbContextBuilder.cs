@@ -53,9 +53,9 @@ namespace iQuarc.DataAccess
 
         private void InterceptLoad(IEnumerable<IEntityInterceptor> interceptors, object entity)
         {
+			IEntityEntry entry = contextUtilities.GetEntry(entity, Context);
             foreach (var interceptor in interceptors)
             {
-                IEntityEntry entry = contextUtilities.GetEntry(entity, Context);
                 interceptor.OnLoad(entry, repository);
             }
         }

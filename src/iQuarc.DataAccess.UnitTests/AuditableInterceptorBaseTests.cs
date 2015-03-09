@@ -18,7 +18,7 @@ namespace iQuarc.DataAccess.UnitTests
 
             var target = GetTarget("any user name");
 
-            target.OnSave(order.AsEntry(EntityEntryStates.Modified), repDummy);
+			target.OnSave(order.AsAuditableEntry(EntityEntryState.Modified), repDummy);
 
             Assert.IsTrue(order.LastEditDate > previousEditTime, "Last edit date not set, but expected");
         }
@@ -29,7 +29,7 @@ namespace iQuarc.DataAccess.UnitTests
             Order order = new Order();
             var target = GetTarget("John");
 
-            target.OnSave(order.AsEntry(EntityEntryStates.Modified), repDummy);
+			target.OnSave(order.AsAuditableEntry(EntityEntryState.Modified), repDummy);
 
             Assert.AreEqual("John", order.LastEditBy);
         }
@@ -40,7 +40,7 @@ namespace iQuarc.DataAccess.UnitTests
             Order order = new Order();
             var target = GetTarget("any user name");
 
-            target.OnSave(order.AsEntry(EntityEntryStates.Added), repDummy);
+			target.OnSave(order.AsAuditableEntry(EntityEntryState.Added), repDummy);
 
             Assert.IsTrue(order.CreationDate > DateTime.MinValue, "Creation date not set, but expected");
         }
@@ -51,7 +51,7 @@ namespace iQuarc.DataAccess.UnitTests
             Order order = new Order();
             var target = GetTarget(currentUserName: "John");
 
-            target.OnSave(order.AsEntry(EntityEntryStates.Added),repDummy);
+			target.OnSave(order.AsAuditableEntry(EntityEntryState.Added), repDummy);
 
             Assert.AreEqual("John", order.CreatedBy);
         }

@@ -3,7 +3,7 @@ using System;
 namespace iQuarc.DataAccess
 {
 	[Flags]
-	public enum EntityEntryStates
+	public enum EntityEntryState
 	{
 		Detached = 1,
 		Unchanged = 2,

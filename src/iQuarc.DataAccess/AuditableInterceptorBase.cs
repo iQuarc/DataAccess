@@ -12,7 +12,7 @@ namespace iQuarc.DataAccess
             var systemDate = DateTime.Now;
             var userName = GetCurrentUserName();
 
-            if (entry.State == EntityEntryStates.Added)
+            if (entry.State == EntityEntryState.Added)
             {
                 entry.Entity.CreationDate = systemDate;
                 entry.Entity.CreatedBy = userName;

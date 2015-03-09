@@ -18,9 +18,9 @@ namespace iQuarc.DataAccess
             get { return entry.Entity; }
         }
 
-        public EntityEntryStates State
+        public EntityEntryState State
         {
-            get { return (EntityEntryStates) entry.State; }
+            get { return (EntityEntryState) entry.State; }
         }
 
         public object GetOriginalValue(string propertyName)
@@ -33,6 +33,23 @@ namespace iQuarc.DataAccess
             if (entry.OriginalValues.PropertyNames.Contains(propertyName))
                 entry.OriginalValues[propertyName] = value;
         }
+
+	    private bool Equals(EntityEntry<T> other)
+	    {
+		    return Equals(entry, other.entry);
+	    }
+
+	    public override bool Equals(object obj)
+	    {
+		    if (ReferenceEquals(null, obj)) return false;
+		    if (ReferenceEquals(this, obj)) return true;
+		    return obj is EntityEntry<T> && Equals((EntityEntry<T>) obj);
+	    }
+
+	    public override int GetHashCode()
+	    {
+		    return (entry != null ? entry.GetHashCode() : 0);
+	    }
     }
 
     sealed class EntityEntry : IEntityEntry
@@ -49,9 +66,9 @@ namespace iQuarc.DataAccess
             get { return this.entry.Entity; }
         }
 
-        public EntityEntryStates State
+        public EntityEntryState State
         {
-            get { return (EntityEntryStates) entry.State; }
+            get { return (EntityEntryState) entry.State; }
         }
 
         public object GetOriginalValue(string propertyName)
@@ -69,5 +86,22 @@ namespace iQuarc.DataAccess
             if (entry.OriginalValues.PropertyNames.Contains(propertyName))
                 entry.OriginalValues[propertyName] = value;
         }
+
+	    private bool Equals(EntityEntry other)
+	    {
+		    return Equals(entry, other.entry);
+	    }
+
+	    public override bool Equals(object obj)
+	    {
+		    if (ReferenceEquals(null, obj)) return false;
+		    if (ReferenceEquals(this, obj)) return true;
+		    return obj is EntityEntry && Equals((EntityEntry) obj);
+	    }
+
+	    public override int GetHashCode()
+	    {
+		    return (entry != null ? entry.GetHashCode() : 0);
+	    }
     }
 }

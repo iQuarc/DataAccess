@@ -4,7 +4,7 @@ namespace iQuarc.DataAccess
 		where T : class
 	{
 		T Entity { get; }
-		EntityEntryStates State { get; }
+		EntityEntryState State { get; }
 		object GetOriginalValue(string propertyName);
 		void SetOriginalValue(string propertyName, object value);
 	}
@@ -12,7 +12,7 @@ namespace iQuarc.DataAccess
 	public interface IEntityEntry
 	{
 		object Entity { get; }
-		EntityEntryStates State { get; }
+		EntityEntryState State { get; }
 		object GetOriginalValue(string propertyName);
 		IEntityEntry<T> Convert<T>() where T : class;
 		void SetOriginalValue(string propertyName, object value);

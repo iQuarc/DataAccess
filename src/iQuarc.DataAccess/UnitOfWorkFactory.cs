@@ -7,11 +7,6 @@ namespace iQuarc.DataAccess
         private readonly IDbContextFactory contextFactory;
         private readonly IInterceptorsResolver interceptorsResolver;
 
-        public UnitOfWorkFactory()
-            :this(ServiceLocator.Current)
-        {
-        }
-
         public UnitOfWorkFactory(IServiceLocator serviceLocator)
         {
             contextFactory = serviceLocator.GetInstance<IDbContextFactory>();
