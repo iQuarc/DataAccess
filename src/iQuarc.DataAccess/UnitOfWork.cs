@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -107,20 +106,20 @@ namespace iQuarc.DataAccess
 				if (entry.State == EntityEntryState.Deleted)
 				{
 					Intercept(globalInterceptors, entity, (i, e) => i.OnDelete(e, this));
-					Intercept(entityInterceptors, entity, (i, e) => i.OnDelete(e, this));	
+					Intercept(entityInterceptors, entity, (i, e) => i.OnDelete(e, this));
 				}
 				else
 				{
 					Intercept(globalInterceptors, entity, (i, e) => i.OnSave(e, this));
-					Intercept(entityInterceptors, entity, (i, e) => i.OnSave(e, this));	
+					Intercept(entityInterceptors, entity, (i, e) => i.OnSave(e, this));
 				}
-				
+
 				interceptedEntities.AddIfNotExists(entity);
 			}
 
 			InterceptSave(interceptedEntities);
 		}
-		
+
 		private IEnumerable<IEntityEntry> GetModifiedEntities(DbContext context)
 		{
 			IEnumerable<IEntityEntry> modifiedEntities = contextUtilities.GetChangedEntities(context,

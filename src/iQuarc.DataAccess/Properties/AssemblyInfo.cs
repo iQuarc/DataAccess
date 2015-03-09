@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("iQuarc.DataAccess")]
-[assembly: AssemblyDescription("Provides a DataAccess abstraction over a relational DB. The implementation is done with EF, which is well hiden from then clients")]
+[assembly: AssemblyDescription("Provides a DataAccess abstraction over a relational DB. The implementation is done with EF, which is well hiden from the clients")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("iQuarc")]
 [assembly: AssemblyProduct("iQuarc.DataAccess")]
