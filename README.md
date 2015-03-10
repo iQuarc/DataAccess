@@ -75,9 +75,11 @@ Create a data model project which contains the POCOs that are mapped to the data
 
 Register into your Dependency Injection container the following mappings:
 
-`IDbContextFactory` , `DbContextFactory<MyEntities>`  
-`IRepository`       , `Repository`  
-`IInterceptorsResolver` , `InterceptorsResolver`
+Contract  | Implementation
+--------  | -------------
+`IDbContextFactory` |  `DbContextFactory<MyEntities>`  
+`IRepository`       |  `Repository`  
+`IInterceptorsResolver` | `InterceptorsResolver`
 
 Related Repository
 -------------------------
