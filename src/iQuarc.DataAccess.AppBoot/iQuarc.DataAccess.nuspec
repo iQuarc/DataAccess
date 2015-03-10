@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<summary>$description$</summary>
+		<description>$description$</description>
+		<releaseNotes>Basic functionality for hiding EF and for creating an Unit of Work</releaseNotes>
+		<copyright>Copyright 2014</copyright>
+		<tags>DataAccess Repository UnitOfWork EntityFramework ORM</tags>
+		<licenseUrl>https://raw.githubusercontent.com/iQuarc/DataAccess/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/iQuarc/DataAccess</projectUrl>
+    <iconUrl>http://iquarc.com/images/iquarc-icon-BW-32x32.png</iconUrl>
+	</metadata>
+</package>
