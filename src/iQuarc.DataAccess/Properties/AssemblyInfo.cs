@@ -47,17 +47,17 @@ static class Version
 	/// <summary>
 	///     Backwards compatible bug fixes only.
 	/// </summary>
-	private const string Patch = "0";
+	private const string Patch = "1";
 
 	/// <summary>
 	///     Build number. Prefix with 0 for NuGet version ranges
 	/// </summary>
-	private const string Build = "000";
+	private const string Build = "0";
 
 	/// <summary>
 	///     NuGet Pre-Release package versions
 	/// </summary>
-	private const string Prerelease = "test";
+	private const string Prerelease = "beta";
 
 	/// <summary>
 	/// Used to set the assembly version
@@ -72,5 +72,5 @@ static class Version
 	/// <summary>
 	/// Used to set the version of a pre-release NuGet Package
 	/// </summary>
-	public const string NugetPrereleasePackage = Major + "." + Minor + "." + Patch + "-" + Prerelease + Build;
+	public const string NugetPrereleasePackage = Major + "." + Minor + "." + Patch + Prerelease + Build;
 }

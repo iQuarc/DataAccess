@@ -246,7 +246,7 @@ namespace iQuarc.DataAccess.UnitTests
 		{
 			Exception e = new Exception();
 			Mock<IEntityInterceptor> interceptorStub = new Mock<IEntityInterceptor>();
-			interceptorStub.Setup(i => i.OnSave(It.IsAny<IEntityEntry>(), It.IsAny<IRepository>()))
+			interceptorStub.Setup(i => i.OnSave(It.IsAny<IEntityEntry>(), It.IsAny<IUnitOfWork>()))
 			               .Throws(e);
 
 			FakeExceptionHandler handler = new FakeExceptionHandler();

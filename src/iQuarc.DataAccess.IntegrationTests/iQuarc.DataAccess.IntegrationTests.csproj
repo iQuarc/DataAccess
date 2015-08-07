@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DFE330D3-8DFD-45CB-BDAD-5E1BA3D60569}</ProjectGuid>
+    <ProjectGuid>{74216D64-CDD7-4A47-81CB-A9B7407D721F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>iQuarc.DataAccess.UnitTests</RootNamespace>
-    <AssemblyName>iQuarc.DataAccess.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>iQuarc.DataAccess.IntegrationTests</RootNamespace>
+    <AssemblyName>iQuarc.DataAccess.IntegrationTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,13 +43,36 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    <Reference Include="iQuarc.AppBoot, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\iQuarc.AppBoot.2.0.2\lib\net45\iQuarc.AppBoot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="iQuarc.AppBoot.Unity, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\iQuarc.AppBoot.Unity.2.0.2\lib\net45\iQuarc.AppBoot.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="iQuarc.SystemEx, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\iQuarc.SystemEx.1.0.0.0\lib\net40\iQuarc.SystemEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -65,34 +87,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ExceptionHandlingTests\AssertEx.cs" />
-    <Compile Include="ExceptionHandlingTests\ConcurrencyExceptionHandlerTests.cs" />
-    <Compile Include="ExceptionHandlingTests\DataValidationExceptionTests.cs" />
-    <Compile Include="ExceptionHandlingTests\DbEntityValidationExceptionHandlerTests.cs" />
-    <Compile Include="ExceptionHandlingTests\ExceptionHandlersBaseTests.cs" />
-    <Compile Include="ExceptionHandlingTests\ExceptionHandlerTests.cs" />
-    <Compile Include="RepositoryTests.cs" />
-    <Compile Include="ExceptionHandlingTests\UpdateExceptionHandlerTests.cs" />
-    <Compile Include="TestDoubles\ContextUtilitiesDouble.cs" />
-    <Compile Include="TestDoubles\EntityEntryDouble.cs" />
-    <Compile Include="TestDoubles\EntryExtensions.cs" />
-    <Compile Include="TestDoubles\FakeExceptionHandler.cs" />
-    <Compile Include="TestDoubles\FakeSet.cs" />
-    <Compile Include="TestDoubles\InterceptorDouble.cs" />
-    <Compile Include="TestDoubles\DbContextFakeWrapper.cs" />
-    <Compile Include="TestDoubles\DbUtilities.cs" />
-    <Compile Include="RepositoryBaseTests.cs" />
+    <Compile Include="DataAccessIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitOfWork.DeleteTests.cs" />
-    <Compile Include="UnitOfWork.RepositoryTests.cs" />
-    <Compile Include="UnitOfWork.SaveTests.cs" />
-    <Compile Include="UnitOfWork.AddTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\iQuarc.DataAccess.AppBoot\iQuarc.DataAccess.AppBoot.csproj">
+      <Project>{5C839D26-2F63-4E00-A907-DD535A9846DF}</Project>
+      <Name>iQuarc.DataAccess.AppBoot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\iQuarc.DataAccess\iQuarc.DataAccess.csproj">
       <Project>{53FBDBE7-3B53-4FC1-9676-1932C6CE6A2F}</Project>
       <Name>iQuarc.DataAccess</Name>
