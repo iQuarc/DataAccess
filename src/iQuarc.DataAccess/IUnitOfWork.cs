@@ -37,5 +37,15 @@ namespace iQuarc.DataAccess
         ///     Begins a TransactionScope with specified isolation level
         /// </summary>
         void BeginTransactionScope(SimplifiedIsolationLevel isolationLevel);
+
+        /// <summary>
+        /// Gets the <see cref="IEntityEntry{T}"/> for the given entity
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><see cref="ArgumentNullException"/> is thrown when <param name="entity"> is <c>null</c></param></exception>
+        /// <typeparam name="T">Entity Type</typeparam>
+        /// <param name="entity">the entity instance</param>
+        /// <returns>and <see cref="IEntityEntry{T}"/>instance for the given entity</returns>
+        IEntityEntry<T> GetEntityEntry<T>(T entity)
+            where T : class;
     }
 }

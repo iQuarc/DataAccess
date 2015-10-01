@@ -15,5 +15,10 @@
 		<licenseUrl>https://raw.githubusercontent.com/iQuarc/DataAccess/master/LICENSE</licenseUrl>
 		<projectUrl>https://github.com/iQuarc/DataAccess</projectUrl>
     <iconUrl>http://iquarc.com/images/iquarc-icon-BW-32x32.png</iconUrl>
+    <releaseNotes>
+      Version 1.0.3
+      - Added GetEntityEntry method to IUnitOfWork to allow getting IEntityEntry for any entity
+      - 
+    </releaseNotes>
 	</metadata>
 </package>

@@ -61,6 +61,7 @@ namespace iQuarc.DataAccess.UnitTests
             public EntityEntryState State
             {
                 get { throw new NotImplementedException(); }
+                set { }
             }
 
             public object GetOriginalValue(string propertyName)
@@ -74,6 +75,11 @@ namespace iQuarc.DataAccess.UnitTests
             }
 
             public void SetOriginalValue(string propertyName, object value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Reload()
             {
                 throw new NotImplementedException();
             }

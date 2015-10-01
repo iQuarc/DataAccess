@@ -48,5 +48,12 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
 			entryStub.Setup(e => e.Entity).Returns(entity);
 			return entryStub.Object;
 		}
+
+	    public IEntityEntry<T> GetEntry<T>(T entity, DbContext context) where T : class
+	    {
+            Mock<IEntityEntry<T>> entryStub = new Mock<IEntityEntry<T>>();
+            entryStub.Setup(e => e.Entity).Returns(entity);
+            return entryStub.Object;
+        }
 	}
 }

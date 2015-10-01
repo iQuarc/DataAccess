@@ -32,7 +32,12 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
 			throw new NotImplementedException();
 		}
 
-		protected bool Equals(EntityEntryDouble other)
+	    public void Reload()
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    protected bool Equals(EntityEntryDouble other)
 		{
 			return Equals(Entity, other.Entity) && State == other.State;
 		}
@@ -78,7 +83,12 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
             throw new NotImplementedException();
         }
 
-	    protected bool Equals(EntityEntryDouble<T> other)
+        public void Reload()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected bool Equals(EntityEntryDouble<T> other)
 	    {
 		    return EqualityComparer<T>.Default.Equals(Entity, other.Entity) && State == other.State;
 	    }

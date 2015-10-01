@@ -1,14 +1,15 @@
 using System;
+using System.Data.Entity;
 
 namespace iQuarc.DataAccess
 {
 	[Flags]
 	public enum EntityEntryState
 	{
-		Detached = 1,
-		Unchanged = 2,
-		Added = 4,
-		Deleted = 8,
-		Modified = 16,
+		Detached = EntityState.Detached,
+		Unchanged = EntityState.Unchanged,
+		Added = EntityState.Added,
+		Deleted = EntityState.Deleted,
+		Modified = EntityState.Modified,
 	}
 }

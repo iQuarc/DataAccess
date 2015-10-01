@@ -10,7 +10,8 @@ namespace iQuarc.DataAccess
 	{
 		IEnumerable<IEntityEntry> GetChangedEntities(DbContext context, Predicate<EntityState> statePredicate);
 		IEntityEntry GetEntry(object entity, DbContext context);
-	}
+        IEntityEntry<T> GetEntry<T>(T entity, DbContext context) where T:class;
+    }
 
 	class DbContextUtilities : IDbContextUtilities
 	{
@@ -27,5 +28,11 @@ namespace iQuarc.DataAccess
 			DbEntityEntry dbEntry = context.Entry(entity);
 			return new EntityEntry(dbEntry);
 		}
+
+	    public IEntityEntry<T> GetEntry<T>(T entity, DbContext context) where T : class
+	    {
+	        DbEntityEntry<T> dbEntityEntry = context.Entry(entity);
+	        return new EntityEntry<T>(dbEntityEntry);
+	    }
 	}
 }

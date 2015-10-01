@@ -156,6 +156,11 @@ namespace iQuarc.DataAccess
             transactionScope = contextBuilder.Context.Database.BeginTransaction((System.Data.IsolationLevel)isolationLevel);
         }
 
+        public IEntityEntry<T> GetEntityEntry<T>(T entity) where T : class
+        {
+            return contextUtilities.GetEntry(entity, contextBuilder.Context);
+        }
+
         public void Dispose()
         {
             Dispose(true);

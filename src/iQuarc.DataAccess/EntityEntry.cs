@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace iQuarc.DataAccess
@@ -34,7 +35,12 @@ namespace iQuarc.DataAccess
                 entry.OriginalValues[propertyName] = value;
         }
 
-	    private bool Equals(EntityEntry<T> other)
+        public void Reload()
+        {
+            entry.Reload();
+        }
+
+        private bool Equals(EntityEntry<T> other)
 	    {
 		    return Equals(entry, other.entry);
 	    }
@@ -69,6 +75,7 @@ namespace iQuarc.DataAccess
         public EntityEntryState State
         {
             get { return (EntityEntryState) entry.State; }
+            set { entry.State = (EntityState) value; }
         }
 
         public object GetOriginalValue(string propertyName)
@@ -87,7 +94,12 @@ namespace iQuarc.DataAccess
                 entry.OriginalValues[propertyName] = value;
         }
 
-	    private bool Equals(EntityEntry other)
+        public void Reload()
+        {
+            entry.Reload();
+        }
+
+        private bool Equals(EntityEntry other)
 	    {
 		    return Equals(entry, other.entry);
 	    }
