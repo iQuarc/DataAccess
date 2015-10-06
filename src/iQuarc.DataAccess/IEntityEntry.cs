@@ -4,7 +4,7 @@ namespace iQuarc.DataAccess
 		where T : class
 	{
 		T Entity { get; }
-		EntityEntryState State { get; }
+		EntityEntryState State { get; set; }
 		object GetOriginalValue(string propertyName);
 		void SetOriginalValue(string propertyName, object value);
 	    void Reload();

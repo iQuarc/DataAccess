@@ -43,9 +43,9 @@
       <HintPath>..\packages\iQuarc.AppBoot.2.0.2\lib\net45\iQuarc.AppBoot.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="iQuarc.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\iQuarc.DataAccess.1.0.0\lib\net45\iQuarc.DataAccess.dll</HintPath>
+    <Reference Include="iQuarc.DataAccess, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\iQuarc.DataAccess.1.0.4\lib\net45\iQuarc.DataAccess.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

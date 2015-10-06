@@ -22,6 +22,7 @@ namespace iQuarc.DataAccess
         public EntityEntryState State
         {
             get { return (EntityEntryState) entry.State; }
+            set { entry.State = (EntityState)value; }
         }
 
         public object GetOriginalValue(string propertyName)
