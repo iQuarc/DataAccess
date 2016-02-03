@@ -47,7 +47,7 @@ static class Version
 	/// <summary>
 	///     Backwards compatible bug fixes only.
 	/// </summary>
-	private const string Patch = "4";
+	private const string Patch = "5";
 
 	/// <summary>
 	///     Build number. Prefix with 0 for NuGet version ranges

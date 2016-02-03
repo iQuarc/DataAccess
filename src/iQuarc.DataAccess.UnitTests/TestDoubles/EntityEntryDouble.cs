@@ -22,7 +22,12 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
 			throw new NotImplementedException();
 		}
 
-		public IEntityEntry<T> Convert<T>() where T : class
+	    public object GetCurrentValue(string propertyName)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public IEntityEntry<T> Convert<T>() where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -33,6 +38,16 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
 		}
 
 	    public void Reload()
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public IEnumerable<string> GetProperties()
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public IPropertyEntry Property(string name)
 	    {
 	        throw new NotImplementedException();
 	    }
@@ -78,12 +93,27 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
             throw new NotImplementedException();
         }
 
+        public object GetCurrentValue(string propertyName)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetOriginalValue(string propertyName, object value)
         {
             throw new NotImplementedException();
         }
 
         public void Reload()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<string> GetProperties()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyEntry Property(string name)
         {
             throw new NotImplementedException();
         }

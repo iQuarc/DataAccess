@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -69,6 +70,11 @@ namespace iQuarc.DataAccess.UnitTests
                 throw new NotImplementedException();
             }
 
+            public object GetCurrentValue(string propertyName)
+            {
+                throw new NotImplementedException();
+            }
+
             public IEntityEntry<T> Convert<T>() where T : class
             {
                 throw new NotImplementedException();
@@ -80,6 +86,16 @@ namespace iQuarc.DataAccess.UnitTests
             }
 
             public void Reload()
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerable<string> GetProperties()
+            {
+                throw new NotImplementedException();
+            }
+
+            public IPropertyEntry Property(string name)
             {
                 throw new NotImplementedException();
             }
