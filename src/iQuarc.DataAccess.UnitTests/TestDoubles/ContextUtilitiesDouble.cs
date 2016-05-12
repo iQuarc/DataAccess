@@ -55,5 +55,10 @@ namespace iQuarc.DataAccess.UnitTests.TestDoubles
             entryStub.Setup(e => e.Entity).Returns(entity);
             return entryStub.Object;
         }
+
+	    public IEnumerable<IEntityEntry> GetEntries(DbContext context)
+	    {
+	        yield break;
+	    }
 	}
 }

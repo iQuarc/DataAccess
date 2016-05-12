@@ -161,6 +161,11 @@ namespace iQuarc.DataAccess
             return contextUtilities.GetEntry(entity, contextBuilder.Context);
         }
 
+        public IEnumerable<IEntityEntry> GetEntityEntries()
+        {
+            return contextUtilities.GetEntries(contextBuilder.Context);
+        }
+
         public void Dispose()
         {
             Dispose(true);

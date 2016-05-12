@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace iQuarc.DataAccess
@@ -47,5 +49,11 @@ namespace iQuarc.DataAccess
         /// <returns>and <see cref="IEntityEntry{T}"/>instance for the given entity</returns>
         IEntityEntry<T> GetEntityEntry<T>(T entity)
             where T : class;
+
+        /// <summary>
+        /// Returns all the entity entries tracked by this context
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IEntityEntry> GetEntityEntries();
     }
 }
