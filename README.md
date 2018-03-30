@@ -19,7 +19,7 @@ private readonly IRepository rep; // injected w/ Dependency Injection
 public IEnumerable<Order> GetAllLargeOrders(int amount)
 {
 	var orders = rep.GetEntities<Order>()
-					.Where(o => o.OrderLines.Any(ol => ol.Ammount > amount)
+					.Where(o => o.OrderLines.Any(ol => ol.Amount > amount)
 	return orders.ToList();
 }
 ```
@@ -29,7 +29,7 @@ private readonly IRepository rep; // injected w/ Dependency Injection
 private IQueriable<Order> GetAllLargeOrders(int amount)
 {
 	var orders = rep.GetEntities<Order>()
-					.Where(o => o.OrderLines.Any(ol => ol.Ammount > amount)
+					.Where(o => o.OrderLines.Any(ol => ol.Amount > amount)
 	return orders;
 }
 
